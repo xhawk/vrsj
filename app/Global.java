@@ -24,7 +24,7 @@ public class Global extends GlobalSettings {
         );
         Akka.system().scheduler().schedule(
                 Duration.create(0L, TimeUnit.MILLISECONDS), //Initial delay 0 milliseconds
-                Duration.create(1L, TimeUnit.MINUTES),     //Frequency 10 minutes
+                Duration.create(10L, TimeUnit.MINUTES),     //Frequency 10 minutes
                 sjTrainDataSaver,
                 "sj"
         );
