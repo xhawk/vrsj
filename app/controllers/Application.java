@@ -17,6 +17,10 @@ public class Application extends Controller {
         return ok(index.render("Your new application is ready."));
     }
 
+    /**
+     * Method for querying SJ database
+     * @return
+     */
     public static Result getSj() {
         List<AvarageLateness> result = new Model.Finder(String.class, AvarageLateness.class).where().eq("serviceProviderName", "SJ").findList();
         return ok(toJson(result));

@@ -47,6 +47,7 @@ public class VrTrainDataSaver extends UntypedActor {
         lateness.lateOnAvarage = lateInAvarage;
         lateness.serviceProviderName = "VR";
         lateness.save();
+        Logger.debug("Saving VR info done...");
     }
 
     public static List<String> getAllTrainIds() throws Exception {

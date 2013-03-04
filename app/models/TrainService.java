@@ -10,9 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created
- * Date: 2/10/13
- * Time: 11:22 AM
+ * Service for querying train data saved in h2-database
  */
 public class TrainService {
 

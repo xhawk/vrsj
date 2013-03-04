@@ -2,6 +2,10 @@ package jobs;
 
 import akka.actor.UntypedActor;
 import models.*;
+import models.sj.SjStation;
+import models.sj.SjStationTimeTable;
+import models.sj.SjStations;
+import models.sj.SjTrain;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import play.Logger;
@@ -15,20 +19,27 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created
- * Date: 2/10/13
- * Time: 12:02 PM
+ * Class for retrieving info on trains late at current time in Sweden.
  */
 public class SjTrainDataSaver extends UntypedActor {
 
     private static final String SJ_STATIONS_URL = "http://93.190.192.27/api/stations.json";
     private static final String SJ_STATION_TIMETABLE_URL = "http://93.190.192.27/api/stationTimeTable/%s.json";
+    private static final String SJ_REGISTRATION_URL = "https://sjmg.sj.se/api2/deviceRegistration/1/iphone";
+
+    /*public SjTrainDataSaver() {
+        F.Promise<WS.Response> promise = createPromise(SJ_REGISTRATION_URL);
+        WS.Response res = promise.get();
+        int status = res.getStatus();
+        Logger.debug("registration returned result: " + status);
+        if (status == 204) {
+            Logger.info("SJ api registration successful");
+        }
+    }*/
 
     @Override
     public void onReceive(Object message) throws Exception {
         Logger.debug("Saving new SJ train lateness info...");
-
-        // TODO: register device
 
         SjStations stationInfo = createStationInfo();
         List<SjTrain> arrivals = getArrivals(stationInfo);
@@ -36,9 +47,9 @@ public class SjTrainDataSaver extends UntypedActor {
 
         for (SjTrain arrival : arrivals) {
             Long lateness = arrival.getTime().getLateness();
-            Logger.debug("single lateness " + lateness);
             lateInAvarage += lateness;
         }
+        Logger.debug("" + lateInAvarage + " / " + arrivals.size());
         lateInAvarage = lateInAvarage / arrivals.size();
         Logger.debug("Saving value " + lateInAvarage);
 

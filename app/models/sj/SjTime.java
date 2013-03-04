@@ -1,4 +1,4 @@
-package models;
+package models.sj;
 
 import play.Logger;
 
